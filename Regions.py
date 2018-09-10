@@ -109,9 +109,23 @@ def create_regions(world):
         create_dungeon_region('Dodongos Cavern Climb', ['Dodongos Cavern Bomb Flower Platform', 'GS Dodongo\'s Cavern Vines Above Stairs'], ['Dodongos Cavern Bridge Fall', 'Dodongos Cavern Slingshot Target']),
         create_dungeon_region('Dodongos Cavern Far Bridge', ['Dodongos Cavern Bomb Bag Chest', 'Dodongos Cavern End of Bridge Chest', 'GS Dodongo\'s Cavern Alcove Above Stairs'], ['Dodongos Cavern Bomb Drop', 'Dodongos Cavern Bridge Fall 2']),        
         create_dungeon_region('Dodongos Cavern Boss Area', ['Chest Above King Dodongo', 'King Dodongo Heart', 'King Dodongo', 'GS Dodongo\'s Cavern Back Room'], ['Dodongos Cavern Exit Skull']),
-        create_ow_region('Zora River Bottom', ['Zora River Lower Freestanding PoH', 'Zora River Upper Freestanding PoH', 'GS Zora River Ladder'], ['Zora River Exit', 'Zora River Rocks', 'Zora River Adult', 'Zora River Plateau Open Grotto', 'Zora River Plateau Bombable Grotto'], hintName='Zora\'s River'),
-        create_ow_region('Zora River Top', ['Magic Bean Salesman', 'Frog Ocarina Game', 'Frogs in the Rain', 'GS Zora River Tree'], ['Zora iver Downstream', 'Zora River Dive Warp', 'Zora River Waterfall'], hintName='Zora\'s River'),
-        create_ow_region('Zora River Adult', ['GS Zora River Near Raised Grottos', 'GS Zora River Above Bridge'], ['Zoras Domain Adult Access'], hintName='Zora\'s River'),
+        create_ow_region(
+            'Zora River Front', 
+            ['GS Zora River Tree'], 
+            ['Zora River Rocks', 'Zora River Adult', 'Zora River Exit'], hintName='Zora\'s River'),
+        create_ow_region(
+            'Zora River Child', 
+            ['Magic Bean Salesman', 'Frog Ocarina Game', 'Frogs in the Rain', 'GS Zora River Ladder'], 
+            ['Zora River Child to Shared', 'Zora River Waterfall'], hintName='Zora\'s River'),
+        create_ow_region(
+            'Zora River Adult', 
+            ['GS Zora River Near Raised Grottos', 'GS Zora River Above Bridge'], 
+            ['Zoras Domain Adult Access', 'Zora River Adult to Shared'], hintName='Zora\'s River'),
+        create_ow_region(
+            'Zora River Shared', 
+            ['Zora River Lower Freestanding PoH', 'Zora River Upper Freestanding PoH'], 
+            ['Zora River Downstream', 'Zora River Plateau Open Grotto', 'Zora River Plateau Bombable Grotto', 
+             'Zora River Dive Warp', 'Zora River Storms Grotto'], hintName='Zora\'s River'),
         create_ow_region('Zoras Domain', ['Diving Minigame', 'Zoras Domain Torch Run', 'King Zora Moves'], ['Zoras Domain Exit', 'Zoras Domain Dive Warp', 'Behind King Zora', 'Zora Shop'], hintName='Zora\'s Domain'),
         create_ow_region('Zoras Fountain', ['GS Zora\'s Fountain Tree', 'GS Zora\'s Fountain Above the Log'], ['Zoras Fountain Exit', 'Jabu Jabus Belly', 'Zoras Fountain Fairy'], hintName='Zora\'s Fountain'),
         create_ow_region('Zoras Domain Frozen', ['King Zora Thawed', 'GS Zora\'s Domain Frozen Waterfall'], ['Zoras Fountain Adult Access'], hintName='Zora\'s Fountain'),

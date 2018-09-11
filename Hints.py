@@ -164,7 +164,7 @@ def buildGossipHints(world, messages):
                 #print(location.parent_region.dungeon.name, ': ', location.item.name)
             else:
                 update_hint(messages, stoneIDs.pop(0), buildHintString(location.parent_region.name + " is on the way of the hero."))
-                spoilerHintsList.append(location.parent_region.hintName + ": " + location.item.name)
+                spoilerHintsList.append(location.parent_region.name + ": " + location.item.name)
                 #print(location.parent_region.name, ': ', location.item.name)
     # Don't repeat hints
     checkedLocations = []

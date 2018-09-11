@@ -86,7 +86,7 @@ def main(settings):
             if platform.system() == 'Windows':
                 subprocess.call(["Compress\\Compress.exe", rom_path, os.path.join(output_dir, '%s-comp.z64' % outfilebase)])
             elif platform.system() == 'Linux':
-                subprocess.call(["Compress/Compress", ('%s.z64' % outfilebase)])
+                subprocess.call(["Compress/Compress", rom_path, os.path.join(output_dir, '%s-comp.z64' % outfilebase)])
             elif platform.system() == 'Darwin':
                 subprocess.call(["Compress/Compress.out", ('%s.z64' % outfilebase)])
             else:

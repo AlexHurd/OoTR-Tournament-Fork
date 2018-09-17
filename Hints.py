@@ -148,7 +148,7 @@ def buildGossipHints(world, messages):
     # loop through the locations we got for "always required locatiosns"
     # if you find lens, remove it
     for l in requiredSample1:
-        if l.item.name == 'Lens of Truth':
+        if l.item.name == 'Lens of Truth' or l.item.name == 'Master Sword':
             continue
         else:
             requiredSample.append(l)

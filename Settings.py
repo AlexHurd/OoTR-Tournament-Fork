@@ -118,7 +118,9 @@ class Settings():
 
     def get_numeric_seed(self):
         # salt seed with the settings, and hash to get a numeric seed
-        full_string = self.settings_string + __version__ + self.seed
+        #full_string = self.settings_string + __version__ + self.seed
+        # salt the seed with a static version so seeds do not change through updates
+        full_string = self.settings_string + '2.13.16 f.LUM' + self.seed
         return int(hashlib.sha256(full_string.encode('utf-8')).hexdigest(), 16)
 
     def sanatize_seed(self):

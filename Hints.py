@@ -22,7 +22,7 @@ gooditems = [
     'Farores Wind',
     'Nayrus Love',
     'Fire Arrows',
-    'Ice Arrows',
+    #'Ice Arrows',
     'Light Arrows',
     'Bottle',
     'Bottle with Letter',
@@ -48,8 +48,8 @@ gooditems = [
     'Claim Check',
     'Kokiri Sword',
     'Biggoron Sword',
-    'Deku Shield',
-    'Hylian Shield',
+    #'Deku Shield',
+    #'Hylian Shield',
     'Mirror Shield',
     'Goron Tunic',
     'Zora Tunic',
@@ -59,10 +59,10 @@ gooditems = [
     'Progressive Scale',
     'Progressive Wallet',
     'Deku Stick Capacity',
-    'Deku Nut Capacity',
+    #'Deku Nut Capacity',
     'Magic Meter',
-    'Double Defense',
-    'Stone of Agony',
+    #'Double Defense',
+    #'Stone of Agony',
     'Zeldas Lullaby',
     'Eponas Song',
     'Suns Song',
@@ -148,7 +148,7 @@ def buildGossipHints(world, messages):
     # loop through the locations we got for "always required locatiosns"
     # if you find lens, remove it
     for l in requiredSample1:
-        if l.item.name == 'Lens of Truth':
+        if l.item.name in ['Master Sword', 'Stone of Agony']:
             continue
         else:
             requiredSample.append(l)
@@ -181,61 +181,92 @@ def buildGossipHints(world, messages):
                         getHint(getItemGenericName(locationWorld.item)).text + ".")
                     spoilerHintsList.append(locationWorld.name + ": " + locationWorld.item.name)
 
-    spoilerHintsList.append('\n-Good Locations-')
-    # Add good location hints
-    sometimesLocations = getHintGroup('location', world)
-    if sometimesLocations:
-        # for _ in range(0, random.randint(9,10) - len(alwaysLocations)):
-        for _ in range(0, 2): # Exactly 2 of these (26 / 
-            hint = random.choice(sometimesLocations)
-            # Repick if location isn't new
-            while hint.name in checkedLocations or hint.name in alwaysLocations:
-                hint = random.choice(sometimesLocations)
+##    spoilerHintsList.append('\n-Good Locations-')
+##    # Add good location hints
+##    sometimesLocations = getHintGroup('location', world)
+##    if sometimesLocations:
+##        # for _ in range(0, random.randint(9,10) - len(alwaysLocations)):
+##        for _ in range(0, 2): # Exactly 2 of these (26 / 
+##            hint = random.choice(sometimesLocations)
+##            # Repick if location isn't new
+##            while hint.name in checkedLocations or hint.name in alwaysLocations:
+##                hint = random.choice(sometimesLocations)
+##
+##            for locationWorld in world.get_locations():
+##                if hint.name == locationWorld.name:
+##                    checkedLocations.append(locationWorld.name)    
+##                    update_hint(messages, stoneIDs.pop(0), getHint(locationWorld.name).text + " " + \
+##                        getHint(getItemGenericName(locationWorld.item)).text + ".")
+##                    spoilerHintsList.append(locationWorld.name + ': ' + locationWorld.item.name)
 
-            for locationWorld in world.get_locations():
-                if hint.name == locationWorld.name:
-                    checkedLocations.append(locationWorld.name)    
-                    update_hint(messages, stoneIDs.pop(0), getHint(locationWorld.name).text + " " + \
-                        getHint(getItemGenericName(locationWorld.item)).text + ".")
-                    spoilerHintsList.append(locationWorld.name + ': ' + locationWorld.item.name)
+##    spoilerHintsList.append('\n-BadItem Dungeon-')
+##    # add bad dungeon locations hints
+##    for dungeon in random.sample(world.dungeons, 2): # Exactly 2 of these (28 / 32)
+##        # Choose a randome dungeon location that is a non-dungeon item
+##        locationWorld = random.choice([location for region in dungeon.regions for location in world.get_region(region).locations
+##            if location.item.type != 'Event' and \
+##            not location.name in eventlocations and \
+##            not isDungeonItem(location.item) and \
+##            (world.tokensanity != 'off' or location.item.name != 'Gold Skulltulla Token') and\
+##            location.item.type != 'Song'])
+##
+##        checkedLocations.append(locationWorld.name)
+##        update_hint(messages, stoneIDs.pop(0), buildHintString(getHint(dungeon.name).text + \
+##            " hoards " + getHint(getItemGenericName(locationWorld.item)).text + "."))
+##        spoilerHintsList.append(dungeon.name + ': ' + locationWorld.item.name) 
+##
+##    spoilerHintsList.append('\n-BadItem Overworld-')
+##    # add bad overworld locations hints
+##    # only choose location if it is new and a proper item from the overworld
+##    overworldlocations = [locationWorld for locationWorld in world.get_locations()
+##            if not locationWorld.name in checkedLocations and \
+##            not locationWorld.name in alwaysLocations and \
+##            not locationWorld.name in sometimesLocations and \
+##            locationWorld.item.type != 'Event' and \
+##            not locationWorld.name in eventlocations and \
+##            (world.tokensanity == 'all' or locationWorld.item.name != 'Gold Skulltulla Token') and \
+##            not locationWorld.parent_region.dungeon and \
+##            not locationWorld.name in checkedLocations]
+##    overworldSample = overworldlocations
+##    if len(overworldSample) >= 2: # Only need to check for 2
+##        overworldSample = random.sample(overworldlocations, 2) # Exactly 2 of these (30 / 32)
+##    for locationWorld in overworldSample:
+##        checkedLocations.append(locationWorld.name)
+##        update_hint(messages, stoneIDs.pop(0), buildHintString(getHint(getItemGenericName(locationWorld.item)).text + \
+##            " can be found at " + locationWorld.parent_region.name + "."))
+##        spoilerHintsList.append(locationWorld.parent_region.name + ': ' + locationWorld.item.name)
 
-    spoilerHintsList.append('\n-BadItem Dungeon-')
-    # add bad dungeon locations hints
-    for dungeon in random.sample(world.dungeons, 2): # Exactly 2 of these (28 / 32)
-        # Choose a randome dungeon location that is a non-dungeon item
-        locationWorld = random.choice([location for region in dungeon.regions for location in world.get_region(region).locations
-            if location.item.type != 'Event' and \
-            not location.name in eventlocations and \
-            not isDungeonItem(location.item) and \
-            (world.tokensanity != 'off' or location.item.name != 'Gold Skulltulla Token') and\
-            location.item.type != 'Song'])
-
-        checkedLocations.append(locationWorld.name)
-        update_hint(messages, stoneIDs.pop(0), buildHintString(getHint(dungeon.name).text + \
-            " hoards " + getHint(getItemGenericName(locationWorld.item)).text + "."))
-        spoilerHintsList.append(dungeon.name + ': ' + locationWorld.item.name) 
-
-    spoilerHintsList.append('\n-BadItem Overworld-')
-    # add bad overworld locations hints
-    # only choose location if it is new and a proper item from the overworld
-    overworldlocations = [locationWorld for locationWorld in world.get_locations()
+    #Populate 4 bad item hints
+    spoilerHintsList.append('\n-Bad Items-')
+    # add good item hints
+    # only choose location if it is new and a good item
+    if world.shuffle_weird_egg:
+        gooditems.append('Weird Egg')
+    baditemlocations = [locationWorld for locationWorld in world.get_locations() 
             if not locationWorld.name in checkedLocations and \
             not locationWorld.name in alwaysLocations and \
-            not locationWorld.name in sometimesLocations and \
+            (world.tokensanity == 'all' or locationWorld.item.name != 'Gold Skulltulla Token') and \
             locationWorld.item.type != 'Event' and \
             not locationWorld.name in eventlocations and \
-            (world.tokensanity == 'all' or locationWorld.item.name != 'Gold Skulltulla Token') and \
-            not locationWorld.parent_region.dungeon and \
-            not locationWorld.name in checkedLocations]
-    overworldSample = overworldlocations
-    if len(overworldSample) >= 2: # Only need to check for 2
-        overworldSample = random.sample(overworldlocations, 2) # Exactly 2 of these (30 / 32)
-    for locationWorld in overworldSample:
+            not isDungeonItem(locationWorld.item) and \
+            locationWorld.item.name not in gooditems]
+    baditemSample = random.sample(baditemlocations, 4)
+    # Don't need this check, we'll fill the rest from this pool, usually only 2, can be more in very rare cases
+    # if len(gooditemSample) >= 5:
+    #    gooditemSample = random.sample(gooditemlocations, random.randint(3,5))
+    # for locationWorld in gooditemSample:
+    for locationWorld in baditemSample:
+        #locationWorld = gooditemSample.pop()
         checkedLocations.append(locationWorld.name)
-        update_hint(messages, stoneIDs.pop(0), buildHintString(getHint(getItemGenericName(locationWorld.item)).text + \
-            " can be found at " + locationWorld.parent_region.name + "."))
-        spoilerHintsList.append(locationWorld.parent_region.name + ': ' + locationWorld.item.name)
-
+        if locationWorld.parent_region.dungeon:
+            update_hint(messages, stoneIDs.pop(0), buildHintString(getHint(locationWorld.parent_region.dungeon.name).text + \
+                " hoards " + getHint(getItemGenericName(locationWorld.item)).text + "."))
+            spoilerHintsList.append(locationWorld.parent_region.dungeon.name + ': ' + locationWorld.item.name)
+        else:
+            update_hint(messages, stoneIDs.pop(0), buildHintString(getHint(getItemGenericName(locationWorld.item)).text + \
+                " can be found at " + locationWorld.parent_region.name + "."))
+            spoilerHintsList.append(locationWorld.parent_region.name + ': ' + locationWorld.item.name)
+            
     spoilerHintsList.append('\n-Good Items-')
     # add good item hints
     # only choose location if it is new and a good item

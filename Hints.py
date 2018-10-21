@@ -140,6 +140,41 @@ def buildGossipHints(world, messages):
     #shuffles the stone addresses for randomization, always locations will be placed first and twice
     random.shuffle(stoneIDs)
 
+    stoneLocations = {
+        0x0401: 'Zoras Fountain - Fairy',
+        0x0402: 'Zoras Fountain - Jabu',
+        0x0403: 'Lake Hylia - Lab',
+        0x0404: 'Death Mountain Trail - Biggoron',
+        0x0405: 'Death Mountain Crater - Bombable Wall',
+        0x0406: 'Temple of Time - Left',
+        0x0407: 'Temple of Time - Middle-Left',
+        0x0408: 'Lake Hylia - South-West Corner',
+        0x0409: 'Zoras Domain - Mweep',
+        0x040A: 'Graveyard - Shadow Temple',
+        0x040B: 'Hyrule Castle - Rock Wall',
+        0x040C: 'Zoras River - Waterfall',
+        0x040D: 'Zoras River - Plateau',
+        0x040E: 'Temple of Time - Middle-Right',
+        0x040F: 'Lake Hylia - South-East Corner',
+        0x0410: 'Temple of Time - Right',
+        0x0411: 'Gerudo Valley - Waterfall',
+        0x0412: 'Hyrule Castle - Malon',
+        0x0413: 'Hyrule Castle - Storms Grotto',
+        0x0414: 'Dodongos Cavern - Bombable Wall',
+        0x0415: 'Goron City - Maze',
+        0x0416: 'Sacred Forest Meadow - Maze Lower',
+        0x0417: 'Sacred Forest Meadow - Maze Upper',
+        0x0418: 'Generic Grotto',
+        0x0419: 'Goron City - Medigoron',
+        0x041A: 'Desert Colossus - Spirit Temple',
+        0x041B: 'Hyrule Field - Hammer Grotto',
+        0x041C: 'Sacred Forest Meadow - Saria',
+        0x041D: 'Lost Woods - Bridge',
+        0x041E: 'Kokiri Forest - Storms',
+        0x041F: 'Kokiri Forest - Deku Tree Left',
+        0x0420: 'Kokiri Forest - Deku Tree Right'
+    }
+
     spoilerHintsList.append('-Way of the Hero-')
     # add required items locations for hints (good hints)
     requiredSample = []
@@ -157,14 +192,17 @@ def buildGossipHints(world, messages):
         requiredSample = random.sample(requiredSample, 4) #Pick exactly 4
     for location in requiredSample:
         for _ in range(0,3): #and distribute each 3 times (12 / 32)
+            ID = stoneIDs.pop(0)
             if location.parent_region.dungeon:
-                update_hint(messages, stoneIDs.pop(0), buildHintString(getHint(location.parent_region.dungeon.name).text + \
+                update_hint(messages, ID, buildHintString(getHint(location.parent_region.dungeon.name).text + \
                     " is on the way of the hero."))
-                spoilerHintsList.append(location.parent_region.dungeon.name + ': ' + location.item.name)
+                spoilerHintsList.append(location.parent_region.dungeon.name + ': ' + location.item.name + \
+                    ' (' + stoneLocations[ID] + ')')
                 #print(location.parent_region.dungeon.name, ': ', location.item.name)
             else:
-                update_hint(messages, stoneIDs.pop(0), buildHintString(location.parent_region.name + " is on the way of the hero."))
-                spoilerHintsList.append(location.parent_region.name + ": " + location.item.name)
+                update_hint(messages, ID, buildHintString(location.parent_region.name + " is on the way of the hero."))
+                spoilerHintsList.append(location.parent_region.name + ": " + location.item.name + \
+                    ' (' + stoneLocations[ID] + ')')
                 #print(location.parent_region.name, ': ', location.item.name)
     # Don't repeat hints
     checkedLocations = []
@@ -177,9 +215,11 @@ def buildGossipHints(world, messages):
             if hint.name == locationWorld.name:
                 checkedLocations.append(hint.name)
                 for _ in range(0,2): #populate each of these twice (24 / 32)
-                    update_hint(messages, stoneIDs.pop(0), getHint(locationWorld.name).text + " " + \
+                    ID = stoneIDs.pop(0)
+                    update_hint(messages, ID, getHint(locationWorld.name).text + " " + \
                         getHint(getItemGenericName(locationWorld.item)).text + ".")
-                    spoilerHintsList.append(locationWorld.name + ": " + locationWorld.item.name)
+                    spoilerHintsList.append(locationWorld.name + ": " + locationWorld.item.name + \
+                        ' (' + stoneLocations[ID] + ')')
 
 ##    spoilerHintsList.append('\n-Good Locations-')
 ##    # Add good location hints
@@ -258,14 +298,17 @@ def buildGossipHints(world, messages):
     for locationWorld in baditemSample:
         #locationWorld = gooditemSample.pop()
         checkedLocations.append(locationWorld.name)
+        ID = stoneIDs.pop(0)
         if locationWorld.parent_region.dungeon:
-            update_hint(messages, stoneIDs.pop(0), buildHintString(getHint(locationWorld.parent_region.dungeon.name).text + \
+            update_hint(messages, ID, buildHintString(getHint(locationWorld.parent_region.dungeon.name).text + \
                 " hoards " + getHint(getItemGenericName(locationWorld.item)).text + "."))
-            spoilerHintsList.append(locationWorld.parent_region.dungeon.name + ': ' + locationWorld.item.name)
+            spoilerHintsList.append(locationWorld.parent_region.dungeon.name + ': ' + locationWorld.item.name + \
+                ' (' + stoneLocations[ID] + ')')
         else:
-            update_hint(messages, stoneIDs.pop(0), buildHintString(getHint(getItemGenericName(locationWorld.item)).text + \
+            update_hint(messages, ID, buildHintString(getHint(getItemGenericName(locationWorld.item)).text + \
                 " can be found at " + locationWorld.parent_region.name + "."))
-            spoilerHintsList.append(locationWorld.parent_region.name + ': ' + locationWorld.item.name)
+            spoilerHintsList.append(locationWorld.parent_region.name + ': ' + locationWorld.item.name + \
+                ' (' + stoneLocations[ID] + ')')
             
     spoilerHintsList.append('\n-Good Items-')
     # add good item hints
@@ -284,14 +327,17 @@ def buildGossipHints(world, messages):
     while stoneIDs:
         locationWorld = gooditemSample.pop()
         checkedLocations.append(locationWorld.name)
+        ID = stoneIDs.pop(0)
         if locationWorld.parent_region.dungeon:
-            update_hint(messages, stoneIDs.pop(0), buildHintString(getHint(locationWorld.parent_region.dungeon.name).text + \
+            update_hint(messages, ID, buildHintString(getHint(locationWorld.parent_region.dungeon.name).text + \
                 " hoards " + getHint(getItemGenericName(locationWorld.item)).text + "."))
-            spoilerHintsList.append(locationWorld.parent_region.dungeon.name + ': ' + locationWorld.item.name)
+            spoilerHintsList.append(locationWorld.parent_region.dungeon.name + ': ' + locationWorld.item.name + \
+                ' (' + stoneLocations[ID] + ')')
         else:
-            update_hint(messages, stoneIDs.pop(0), buildHintString(getHint(getItemGenericName(locationWorld.item)).text + \
+            update_hint(messages, ID, buildHintString(getHint(getItemGenericName(locationWorld.item)).text + \
                 " can be found at " + locationWorld.parent_region.name + "."))
-            spoilerHintsList.append(locationWorld.parent_region.name + ': ' + locationWorld.item.name)
+            spoilerHintsList.append(locationWorld.parent_region.name + ': ' + locationWorld.item.name + \
+                ' (' + stoneLocations[ID] + ')')
 
     #spoilerHintsList.append('\n-Junk-\n')
     
